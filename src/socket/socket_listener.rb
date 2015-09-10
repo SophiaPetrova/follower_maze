@@ -19,6 +19,10 @@ class SocketListener
   end
 
   def process(client)
-    @client_handler.handle client
+    begin
+      @client_handler.handle client
+    rescue UserClientIdNotProvidedError
+      #log?
+    end
   end
 end

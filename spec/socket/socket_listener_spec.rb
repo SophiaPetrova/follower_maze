@@ -27,5 +27,16 @@ describe :Socket do
       listener = SocketListener.new 1, client_handler
       listener.start!
     end
+
+    it 'does not break if the handler fails to handle a new client' do
+      expect(AppConfig).to receive(:production?).and_return(false)
+      expect(TCPServer).to receive(:open).and_return(server)
+      expect(server).to receive(:accept).and_return(socket)
+      expect(Thread).to receive(:start).with(socket).and_yield(client)
+      expect(client_handler).to receive(:handle).and_raise(UserClientIdNotProvidedError)
+
+      listener = SocketListener.new 1, client_handler
+      listener.start!
+    end
   end
 end
