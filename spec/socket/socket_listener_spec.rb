@@ -18,7 +18,7 @@ describe :Socket do
     let(:client) { double('client') }
 
     it 'processes every new client connected in a new thread' do
-      expect(AppConfig).to receive(:is_production?).and_return(false)
+      expect(AppConfig).to receive(:production?).and_return(false)
       expect(TCPServer).to receive(:open).and_return(server)
       expect(server).to receive(:accept).and_return(socket)
       expect(Thread).to receive(:start).with(socket).and_yield(client)

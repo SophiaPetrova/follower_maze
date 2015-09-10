@@ -1,5 +1,5 @@
 class AppConfig
-  def self.is_production?
+  def self.production?
     !ENV.include? PRODUCTION_VARIABLE
   end
 

@@ -9,13 +9,13 @@ class SocketListener
       Thread.start(@server.accept) do |client|
         process client
       end
-      break if should_break?
+      break if break?
     end
   end
 
   private
-  def should_break?
-    !AppConfig.is_production?
+  def break?
+    !AppConfig.production?
   end
 
   def process(client)
