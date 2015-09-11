@@ -1,9 +1,9 @@
 class EventsDispatcher
 
-  def initialize(event_commands = [])
+  def initialize(unprocessed_events_manager = UnprocessedEventsManager.new, event_commands = [])
     @supported_events = event_commands
     @guard_command = EventCommand.new 0, 'dummy-guard-command'
-    @unprocessed_commands = {}
+    @unprocessed_commands = unprocessed_events_manager
   end
 
   def dispatch(event)
@@ -21,13 +21,13 @@ class EventsDispatcher
   private
   def process(new_commands)
     new_commands.each do |command|
-      @unprocessed_commands[command.sequence] = command
+      @unprocessed_commands.add command
     end
 
-    while @unprocessed_commands.has_key? @guard_command.next_command_sequence
-      processing_command = @unprocessed_commands[@guard_command.next_command_sequence]
+    while processing_command = @unprocessed_commands.next_event(@guard_command)
       processing_command.process!
       @guard_command = processing_command
+      @unprocessed_commands.remove processing_command
     end
   end
 end

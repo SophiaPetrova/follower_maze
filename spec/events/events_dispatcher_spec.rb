@@ -23,32 +23,27 @@ describe :EventsDispatcher do
 
       let(:next_event_command) { FollowEventCommand.parse next_command_string }
       let(:future_event_command) { FollowEventCommand.parse future_command_string }
+      let(:unprocessed_events_manager) { UnprocessedEventsManager.new }
+      let(:dispatcher) { EventsDispatcher.new(unprocessed_events_manager, [FollowEventCommand])}
 
       it 'returns true' do
-        dispatcher = EventsDispatcher.new([FollowEventCommand])
-
         expect(dispatcher.dispatch(Events.new(next_command_string))).to be true
       end
 
       it 'does not process the command if it is not the next' do
         expect(FollowEventCommand).to receive(:parse).and_return(future_event_command)
-        dispatcher = EventsDispatcher.new([FollowEventCommand])
-
         expect(dispatcher.dispatch(Events.new(future_command_string))).to be true
         expect(future_event_command.processed).to be false
       end
 
       it 'processes the command if it is the next one in the stream' do
         expect(FollowEventCommand).to receive(:parse).and_return(next_event_command)
-        dispatcher = EventsDispatcher.new([FollowEventCommand])
-
         expect(dispatcher.dispatch(Events.new(next_command_string))).to be true
         expect(next_event_command.processed).to be true
       end
 
       it 'processes all the sequential commands already seen' do
         expect(FollowEventCommand).to receive(:parse).and_return(future_event_command, next_event_command)
-        dispatcher = EventsDispatcher.new([FollowEventCommand])
 
         expect(dispatcher.dispatch(Events.new(future_command_string))).to be true
         expect(future_event_command.processed).to be false
@@ -57,6 +52,16 @@ describe :EventsDispatcher do
         # processes until there is no matching sequence
         expect(next_event_command.processed).to be true
         expect(future_event_command.processed).to be true
+      end
+
+      it 'removes the processed commands from the buffer' do
+        expect(unprocessed_events_manager.size).to eq(0)
+        dispatcher.dispatch(Events.new(future_command_string))
+
+        expect(unprocessed_events_manager.size).to eq(1)
+        dispatcher.dispatch(Events.new(next_command_string))
+
+        expect(unprocessed_events_manager.size).to eq(0)
       end
     end
   end
