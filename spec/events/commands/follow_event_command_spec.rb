@@ -1,20 +1,24 @@
 require 'spec_helper'
 
 describe :FollowEventCommand do
+  let(:missing_sequence_number) { 'F|12|9' }
+  let(:negative_sequence_number) { '-1|F|54|1' }
+  let(:complete_command) { '1|F|12|9' }
+
   context :parse do
     describe 'when the command string does not match the format' do
       it 'returns nil' do
-        expect(FollowEventCommand.parse('1|U|12|9')).to be_nil
+        expect(FollowEventCommand.parse(missing_sequence_number)).to be_nil
       end
     end
 
     describe 'when the command string matches the format' do
       it 'returns nil for invalid sequence numbers' do
-        expect(FollowEventCommand.parse('-1|F|12|9')).to be_nil
+        expect(FollowEventCommand.parse(negative_sequence_number)).to be_nil
       end
 
       it 'returns a new follow command for valid commands' do
-        command = FollowEventCommand.parse('1|F|12|9')
+        command = FollowEventCommand.parse(complete_command)
 
         expect(command).to_not be_nil
         expect(command.sequence).to eq(1)

@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe :StatusUpdateEventCommand do
-  let (:missing_sequence_number) { 'S|54' }
-  let (:negative_sequence_number) { '-1|S|54' }
-  let (:complete_command) { '1|S|54' }
+  let(:missing_sequence_number) { 'S|54' }
+  let(:negative_sequence_number) { '-1|S|54' }
+  let(:complete_command) { '1|S|54' }
 
   context :parse do
     describe 'when the command string does not match the format' do
