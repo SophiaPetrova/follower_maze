@@ -3,8 +3,9 @@ require 'spec_helper'
 describe :ClientPool do
   let(:simple_client) { double('simple_client') }
   let(:another_client) { double('another_client') }
-  let(:message) { 'Hello, socket!' }
   let(:id) { 1 }
+  let(:another_id) { 2 }
+  let(:message) { 'Hello, socket!' }
 
   context :register do
     it 'registers a socket with an id' do
@@ -37,6 +38,19 @@ describe :ClientPool do
       pool = ClientPool.new
 
       expect { pool.notify(id, message) }.to raise_error(ClientNotFoundError)
+    end
+  end
+
+  context :broadcast do
+    it 'notifies all clients connected to the pool' do
+      expect(simple_client).to receive(:send).with(message)
+      expect(another_client).to receive(:send).with(message)
+
+      pool = ClientPool.new
+      pool.register(id, simple_client)
+      pool.register(another_id, another_client)
+
+      pool.broadcast(message)
     end
   end
 end

@@ -17,4 +17,9 @@ class ClientPool
     @connected_clients[client_id].send message
   end
 
+  def broadcast(message)
+    @connected_clients.keys.each do |key|
+      notify(key, message)
+    end
+  end
 end
