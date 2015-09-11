@@ -9,6 +9,10 @@ class UserFollowersManager
     @registry.register_follower_for_user user_being_followed, follower
   end
 
+  def remove_follower(user_being_followed, follower)
+    @registry.remove_follower_for_user user_being_followed, follower
+  end
+
   def get_followers(user)
     followers = @registry.get_followers user
     followers.nil? ? [] : followers

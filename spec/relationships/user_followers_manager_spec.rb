@@ -14,6 +14,15 @@ describe :UserFollowersManager do
     end
   end
 
+  context :remove_follower do
+    it 'removes the old follower for the provides user' do
+      expect(registry).to receive(:remove_follower_for_user).with(user_being_followed, user_following)
+
+      user_followers_manager = UserFollowersManager.new registry
+      user_followers_manager.remove_follower user_being_followed, user_following
+    end
+  end
+
   context :get_followers do
     it 'returns the list of users' do
       expect(registry).to receive(:get_followers).with(user_being_followed).and_return([user_following])
@@ -33,5 +42,6 @@ describe :UserFollowersManager do
       expect(followers).to be_empty
     end
   end
+
 
 end
