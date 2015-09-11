@@ -1,0 +1,3 @@
+class StatusUpdateEventCommand < EventCommand
+
+end

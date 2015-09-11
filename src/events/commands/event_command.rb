@@ -2,7 +2,7 @@ class EventCommand
   attr_accessor :sequence, :from_user, :to_user, :processed
   @@command_token_spearator = '|'
 
-  def initialize(sequence, from_user = 0, to_user = 0)
+  def initialize(sequence, from_user = nil, to_user = nil)
     @sequence = sequence
     @from_user = from_user
     @to_user = to_user

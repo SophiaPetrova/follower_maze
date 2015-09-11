@@ -1,0 +1,3 @@
+class PrivateMessageEventCommand < EventCommand
+
+end

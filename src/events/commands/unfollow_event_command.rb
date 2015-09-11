@@ -1,0 +1,3 @@
+class UnfollowEventCommand < EventCommand
+
+end
