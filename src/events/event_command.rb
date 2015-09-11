@@ -8,7 +8,7 @@ class EventCommand
     @@command_token_spearator = '|'
   end
 
-  def parse(command)
+  def self.parse(command)
     nil
   end
 

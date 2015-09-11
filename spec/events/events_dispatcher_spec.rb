@@ -11,14 +11,26 @@ describe :EventsDispatcher do
   context :dispatch do
     describe 'when the event has an invalid payload' do
       it 'returns false' do
-        dispatcher = EventsDispatcher.new([EventCommand.new(0, 'dummy-command')])
+        dispatcher = EventsDispatcher.new([EventCommand])
 
         expect(dispatcher.dispatch(Events.new('1|D|12|9'))).to be false
       end
     end
 
     describe 'when the event has a valid payload' do
-      it 'processes the command if it is the next one' do
+      it 'returns true' do
+
+      end
+
+      it 'does not process the command if it is not the next' do
+
+      end
+
+      it 'processes the command if it is the next one in the stream' do
+
+      end
+
+      it 'processes all the sequential commands already seen' do
 
       end
     end
