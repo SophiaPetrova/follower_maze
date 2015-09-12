@@ -1,6 +1,6 @@
 class EventsSocketHandler
 
-  def initialize(dispatcher = EventsDispatcher.new)
+  def initialize(dispatcher = EventsDispatcher.new(EventCommandBuilder.new))
     @dispatcher = dispatcher
   end
 
