@@ -29,7 +29,7 @@ describe :UserClientSocketHandler do
       it 'registers a new user client socket with the received ID in the client pool' do
         expect(client_socket).to receive(:gets).and_return(protocol_message)
         expect(UserClientSocket).to receive(:new).and_return(user_client_socket)
-        expect(client_pool).to receive(:register).with(id, user_client_socket)
+        expect(client_pool).to receive(:register).with(id.to_i, user_client_socket)
 
         handler = UserClientSocketHandler.new client_pool
         handler.handle client_socket

@@ -2,8 +2,8 @@ require 'require_all'
 require_all File.expand_path('.', File.dirname(__FILE__))
 
 class App
-  def initialize
-    @stop = false
+  def initialize(stop = false)
+    @stop = stop
   end
 
   def start

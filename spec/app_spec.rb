@@ -64,9 +64,8 @@ describe :App do
       expect(events_socket).to receive(:start!)
       expect(clients_socket).to receive(:start!)
 
-      app = App.new
-      Thread.new { app.start }
-      app.stop
+      app = App.new true #sets the stop flag to immediately stop
+      app.start
     end
   end
 end
