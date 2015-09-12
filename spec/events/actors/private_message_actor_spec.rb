@@ -5,16 +5,20 @@ describe :PrivateMessageActor do
   let(:destination_user) { 1 }
   let(:actor) { PrivateMessageActor.new client_pool }
   let(:message) { 'my private message' }
+  let(:command) { PrivateMessageEventCommand.new 1, 1, destination_user }
 
   context :act do
     it 'sends the message to the client pool' do
       expect(client_pool).to receive(:notify).with(destination_user, message)
-      actor.act(destination_user, message)
+      actor.act(command)
+
+      expect(command.processed).to be true
     end
 
     it 'ignores errors from the client pool' do
       expect(client_pool).to receive(:notify).with(destination_user, message).and_raise(ClientNotFoundError)
-      actor.act(destination_user, message)
+      actor.act(command)
+      expect(command.processed).to be true
     end
   end
 end

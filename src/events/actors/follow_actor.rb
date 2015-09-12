@@ -5,12 +5,13 @@ class FollowActor
     @client_pool = client_pool
   end
 
-  def act(user_being_followed, new_follower)
-    @user_followers_manager.register_follower user_being_followed, new_follower
+  def act(command)
+    @user_followers_manager.register_follower command.to_user, command.from_user
     begin
-      @client_pool.notify(user_being_followed, "Yay! User #{new_follower} is now following you.")
+      @client_pool.notify(command.to_user, "Yay! User #{command.from_user} is now following you.")
     rescue ClientNotFoundError => e
       #log?
     end
+    command.process!
   end
 end
