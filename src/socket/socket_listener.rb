@@ -1,3 +1,5 @@
+require 'socket'
+
 class SocketListener
   def initialize(port, client_handler)
     @server = TCPServer.open port

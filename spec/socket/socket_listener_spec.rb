@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe :Socket do
+describe :SocketListener do
   let(:client_handler) { double('client_handler') }
 
   context :initialize do
