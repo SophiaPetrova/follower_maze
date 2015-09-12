@@ -6,6 +6,5 @@ class UnfollowActor
 
   def act(user_being_followed, follower)
     @user_followers_manager.remove_follower user_being_followed, follower
-
   end
 end
