@@ -3,7 +3,7 @@ require 'spec_helper'
 describe :BroadcastActor do
   let(:client_pool) { double('client_pool') }
   let(:actor) { BroadcastActor.new client_pool }
-  let(:message) { 'my broadcast message' }
+  let(:message) { '1|B' }
   let(:command) { BroadcastEventCommand.new 1 }
 
   context :act do

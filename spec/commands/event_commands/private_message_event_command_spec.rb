@@ -27,4 +27,11 @@ describe :PrivateMessageEventCommand do
       end
     end
   end
+
+  context :command do
+    it 'returns the string representation of the event command' do
+        command = PrivateMessageEventCommand.parse(complete_command)
+        expect(command.command).to eq(complete_command)
+    end
+  end
 end

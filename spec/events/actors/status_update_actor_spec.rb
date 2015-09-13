@@ -6,7 +6,7 @@ describe :StatusUpdateActor do
   let(:user_being_followed) { 1 }
   let(:one_follower) { 2 }
   let(:another_follower) { 3 }
-  let(:message) { 'Status update from 1: The brown fox...' }
+  let(:message) { "1\|S\|#{user_being_followed}" }
   let(:command) { StatusUpdateEventCommand.new 1, user_being_followed }
 
   context :act do

@@ -4,7 +4,7 @@ describe :PrivateMessageActor do
   let(:client_pool) { double('client_pool') }
   let(:destination_user) { 1 }
   let(:actor) { PrivateMessageActor.new client_pool }
-  let(:message) { 'my private message' }
+  let(:message) { "1\|P\|1\|#{destination_user}" }
   let(:command) { PrivateMessageEventCommand.new 1, 1, destination_user }
 
   context :act do

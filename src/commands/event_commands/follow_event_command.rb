@@ -6,6 +6,10 @@ class FollowEventCommand < EventCommand
     FollowEventCommand.new(tokens[0].to_i, tokens[2].to_i, tokens[3].to_i)
   end
 
+  def command
+    "#{@sequence}\|F\|#{@from_user}\|#{@to_user}"
+  end
+
   private
   REGEX = /^\d+\|F\|\d+\|\d+$/
 end

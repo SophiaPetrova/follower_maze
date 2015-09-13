@@ -8,7 +8,7 @@ class FollowActor
   def act(command)
     @user_followers_manager.register_follower command.to_user, command.from_user
     begin
-      @client_pool.notify(command.to_user, "Yay! User #{command.from_user} is now following you.")
+      @client_pool.notify(command.to_user, command.command)
     rescue ClientNotFoundError => e
       #log?
     end

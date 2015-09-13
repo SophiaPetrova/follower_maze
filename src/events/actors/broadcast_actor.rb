@@ -6,7 +6,7 @@ class BroadcastActor
 
   def act(command)
     begin
-      @client_pool.broadcast 'my broadcast message'
+      @client_pool.broadcast(command.command)
     rescue ClientNotFoundError => e
       #log?
     end

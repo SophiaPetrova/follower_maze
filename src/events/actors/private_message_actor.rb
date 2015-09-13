@@ -6,7 +6,7 @@ class PrivateMessageActor
 
   def act(command)
     begin
-      @client_pool.notify command.to_user, 'my private message'
+      @client_pool.notify(command.to_user, command.command)
     rescue ClientNotFoundError => e
       #log?
     end

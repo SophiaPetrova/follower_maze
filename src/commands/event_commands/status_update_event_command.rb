@@ -6,6 +6,10 @@ class StatusUpdateEventCommand < EventCommand
     StatusUpdateEventCommand.new(tokens[0].to_i, tokens[2].to_i)
   end
 
+  def command
+    "#{@sequence}\|S\|#{@from_user}"
+  end
+
   private
   REGEX = /^\d+\|S\|\d+$/
 end

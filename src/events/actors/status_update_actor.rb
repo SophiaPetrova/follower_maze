@@ -7,7 +7,7 @@ class StatusUpdateActor
   def act(command)
     @user_followers_manager.get_followers(command.from_user).each do |follower|
       begin
-        @client_pool.notify(follower, "Status update from #{command.from_user}: The brown fox...")
+        @client_pool.notify(follower, command.command)
       rescue ClientNotFoundError => e
         #log?
       end

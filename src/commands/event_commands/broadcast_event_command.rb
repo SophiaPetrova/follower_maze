@@ -6,6 +6,10 @@ class BroadcastEventCommand < EventCommand
     BroadcastEventCommand.new(tokens[0].to_i)
   end
 
+  def command
+    "#{@sequence}\|B"
+  end
+
   private
   REGEX = /^\d+\|B$/
 end

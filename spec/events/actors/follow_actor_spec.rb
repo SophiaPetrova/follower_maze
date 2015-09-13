@@ -5,7 +5,7 @@ describe :FollowActor do
   let(:user_followers_manager) { double('user_followers_manager') }
   let(:user_being_followed) { 1 }
   let(:follower) { 2 }
-  let(:message) { 'Yay! User 2 is now following you.' }
+  let(:message) { "1\|F\|#{follower}\|#{user_being_followed}" }
   let(:command) { FollowEventCommand.new 1, follower, user_being_followed }
 
   context :act do
