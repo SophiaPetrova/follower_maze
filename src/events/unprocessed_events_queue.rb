@@ -1,4 +1,4 @@
-class UnprocessedEventsManager
+class UnprocessedEventsQueue
   def initialize
     @unprocessed_events = {}
   end

@@ -12,7 +12,7 @@ describe :EventsDispatcher do
   end
 
   context :dispatch do
-    let(:unprocessed_events_manager) { UnprocessedEventsManager.new }
+    let(:unprocessed_events_queue) { UnprocessedEventsQueue.new }
 
     describe 'when the event has an invalid payload' do
       it 'returns false' do
@@ -27,7 +27,7 @@ describe :EventsDispatcher do
     describe 'when the event has a valid payload' do
       let(:next_command_string) { '1|F|12|9' }
       let(:future_command_string) { '2|F|12|9' }
-      let(:dispatcher) { EventsDispatcher.new(events_command_builder, events_command_executor, unprocessed_events_manager) }
+      let(:dispatcher) { EventsDispatcher.new(events_command_builder, events_command_executor, unprocessed_events_queue) }
       let(:next_event_command) { FollowEventCommand.parse next_command_string }
       let(:future_event_command) { FollowEventCommand.parse future_command_string }
 
@@ -64,13 +64,13 @@ describe :EventsDispatcher do
         expect(events_command_executor).to receive(:execute).with(next_event_command)
         expect(events_command_executor).to receive(:execute).with(future_event_command)
 
-        expect(unprocessed_events_manager.size).to eq(0)
+        expect(unprocessed_events_queue.size).to eq(0)
         dispatcher.dispatch(Events.new(future_command_string))
 
-        expect(unprocessed_events_manager.size).to eq(1)
+        expect(unprocessed_events_queue.size).to eq(1)
         dispatcher.dispatch(Events.new(next_command_string))
 
-        expect(unprocessed_events_manager.size).to eq(0)
+        expect(unprocessed_events_queue.size).to eq(0)
       end
     end
   end

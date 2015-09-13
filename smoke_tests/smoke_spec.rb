@@ -3,7 +3,13 @@ require_relative 'client'
 require_relative 'events_server'
 
 describe 'A smoke test' do
-  let(:messages) { ['3|F|2|1', '2|B', '1|P|3|1', '4|S|1', '5|U|2|1', '6|S|1'] }
+  let(:follow_message) { '3|F|2|1' }
+  let(:broadcast_message) { '2|B' }
+  let(:private_message) { '1|P|3|1' }
+  let(:first_status_update_message) { '4|S|1' }
+  let(:unfollow_message) { '5|U|2|1' }
+  let(:second_status_update_message) { '6|S|1' }
+  let(:messages) { [follow_message, broadcast_message, private_message, first_status_update_message, unfollow_message, second_status_update_message] }
 
   it 'works!' do
     ENV.delete 'TEST'
@@ -34,12 +40,12 @@ describe 'A smoke test' do
     app.stop
 
     client_one_messages = client_one.messages
-    expect(client_one_messages).to match_array(['my private message', 'my broadcast message', 'Yay! User 2 is now following you.'])
+    expect(client_one_messages).to match_array([private_message, broadcast_message, follow_message])
 
     client_two_messages = client_two.messages
-    expect(client_two_messages).to match_array(['my broadcast message', 'Status update from 1: The brown fox...'])
+    expect(client_two_messages).to match_array([broadcast_message, first_status_update_message])
 
     client_three_messages = client_three.messages
-    expect(client_three_messages).to match_array(['my broadcast message'])
+    expect(client_three_messages).to match_array([broadcast_message])
   end
 end

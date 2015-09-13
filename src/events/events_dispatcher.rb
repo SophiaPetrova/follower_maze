@@ -1,10 +1,10 @@
 class EventsDispatcher
 
-  def initialize(events_command_builder, events_command_executor, unprocessed_events_manager = UnprocessedEventsManager.new)
+  def initialize(events_command_builder, events_command_executor, unprocessed_events_queue = UnprocessedEventsQueue.new)
     @events_command_builder = events_command_builder
     @events_command_executor = events_command_executor
     @guard_command = EventCommand.new 0, 'dummy-guard-command'
-    @unprocessed_commands = unprocessed_events_manager
+    @unprocessed_commands = unprocessed_events_queue
   end
 
   def dispatch(event)
