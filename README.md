@@ -10,6 +10,8 @@ I've used `bundle` to manage my dependencies. There are two test dependencies:
  - `rspec`: test framework.
  - `require_all`: utility gem to require all files in a directory. This is the only runtime dependency. Nothing more than a helper gem for requiring dependencies.
 
+Code was ran locally using ruby 2.0.0.
+
 # How to run the tests
 In addition to the provided tests (by the follower_maze script + jar) I've written unit tests and a smoke test. To run the unit tests first do `bundle install` (this will download all the dependencies) and then `bundle exec rspec`. The smoke test can be ran by doing `bundle exec rspec smoke_tests/` (assuming you've ran `bundle install` before).
 
