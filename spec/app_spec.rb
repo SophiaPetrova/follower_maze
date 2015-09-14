@@ -73,4 +73,16 @@ describe :App do
       app.start
     end
   end
+
+  context 'App.log' do
+    it 'creates a new default logger' do
+      expect(Logger).to receive(:new).with(STDOUT)
+      App.log
+    end
+
+    it 'uses the existing logger' do
+      expect(Logger).to receive(:new).once.with(STDOUT)
+      App.log
+    end
+  end
 end
