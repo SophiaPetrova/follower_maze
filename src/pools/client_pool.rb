@@ -19,6 +19,7 @@ class ClientPool
       begin
         @connected_clients[client_id].send message
       rescue StandardError => e
+        @connected_clients.delete client_id
         App.log.error e
       end
     end

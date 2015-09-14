@@ -39,6 +39,16 @@ describe :ClientPool do
 
       expect { pool.notify(id, message) }.to raise_error(ClientNotFoundError)
     end
+
+    it 'removes the client from the connected clients if the send message fails' do
+      expect(simple_client).to receive(:send).with(message).and_raise(StandardError)
+
+      pool = ClientPool.new
+      pool.register(id, simple_client)
+      pool.notify(id, message)
+
+      expect(pool.total_registered_clients).to eq(0)
+    end
   end
 
   context :broadcast do
