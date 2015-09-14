@@ -1,4 +1,5 @@
 require 'require_all'
+require 'logger'
 require_all File.expand_path('.', File.dirname(__FILE__))
 
 class App
@@ -18,16 +19,19 @@ class App
     events_handler = EventsSocketHandler.new events_dispatcher
     clients_handler = UserClientSocketHandler.new client_pool
 
-    Thread.new { SocketListener.new(AppConfig.events_port, events_handler).start! }
-    Thread.new { SocketListener.new(AppConfig.clients_port, clients_handler).start! }
+    event_source_thread =  SocketListener.new(AppConfig.events_port, events_handler).start!
+    user_clients_thread =  SocketListener.new(AppConfig.clients_port, clients_handler).start!
 
-    loop do
-      break if @stop
-    end
+    [event_source_thread, user_clients_thread].each(&:join)
   end
 
   def stop
     @stop = true
+  end
+
+  def self.log
+    @@logger ||= Logger.new(STDOUT)
+    @@logger
   end
 
   private

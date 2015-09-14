@@ -13,8 +13,15 @@ class ClientPool
   end
 
   def notify(client_id, message)
-    raise ClientNotFoundError, "No client with id = #{client_id} exists in the pool" if !@connected_clients.has_key? client_id
-    @connected_clients[client_id].send message
+    if !@connected_clients.has_key? client_id
+      raise ClientNotFoundError, "No client with id = #{client_id} exists in the pool"
+    else
+      begin
+        @connected_clients[client_id].send message
+      rescue StandardError => e
+        App.log.error e
+      end
+    end
   end
 
   def broadcast(message)

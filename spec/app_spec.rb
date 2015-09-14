@@ -26,6 +26,8 @@ describe :App do
     let(:private_message_actor) { double('private_message_actor') }
     let(:status_update_actor) { double('status_update_actor') }
     let(:unfollow_actor) { double('unfollow_actor') }
+    let(:events_source_thread) { double('unfollow_actor') }
+    let(:clients_thread) { double('unfollow_actor') }
 
     # The default configurations
     let(:map) { {
@@ -61,8 +63,11 @@ describe :App do
       expect(SocketListener).to receive(:new).with(9099, clients_handler).and_return(clients_socket)
 
       # The app bootstrap
-      expect(events_socket).to receive(:start!)
-      expect(clients_socket).to receive(:start!)
+      expect(events_socket).to receive(:start!).and_return(events_source_thread)
+      expect(clients_socket).to receive(:start!).and_return(clients_thread)
+
+      expect(clients_thread).to receive(:join)
+      expect(events_source_thread).to receive(:join)
 
       app = App.new true #sets the stop flag to immediately stop
       app.start
