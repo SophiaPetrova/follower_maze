@@ -6,6 +6,7 @@ Please find details below on my design decisions and other instructions.
 
 # Dependencies
 I've used `bundle` to manage my dependencies. There are two test dependencies:
+
 - `pry`: for debugging.
 - `rspec`: test framework.
 - `require_all`: utility gem to require all files in a directory. This is the only runtime dependency. Nothing more than a helper gem for requiring dependencies. I've only used it because it is a simpler way of loading all the files in the subdirectories.'
